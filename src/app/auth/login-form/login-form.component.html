@@ -1,0 +1,50 @@
+<div class="container">
+  <div [className]="'container-image'">
+    <img src="assets/images/logo-rec.png" alt="logo image" routerLink="" />
+  </div>
+
+  <form #form="ngForm" (ngSubmit)="handleSubmit(form)">
+    <div [className]="'separator'">
+      <div [className]="'deco-line'"></div>
+      <h5>Login</h5>
+      <div [className]="'deco-line'"></div>
+    </div>
+    <div [className]="'container-input'">
+      <label for="email">Email</label>
+      <input
+        [(ngModel)]="data.email"
+        #email="ngModel"
+        type="text"
+        name="email"
+        placeholder="email@example.com"
+        [className]="'input-field'"
+      />
+    </div>
+    <div [className]="'container-input'">
+      <label for="password">Password</label>
+      <input
+        [(ngModel)]="data.password"
+        [type]="'password'"
+        name="password"
+        type="text"
+        placeholder="password"
+        [className]="'input-field'"
+      />
+    </div>
+
+    <div [className]="'container-checkbox'">
+      <input
+        type="checkbox"
+        name="isRemember"
+        [className]="'remember-box'"
+        [(ngModel)]="data.isRemember"
+      />
+      <p>Remember me</p>
+    </div>
+
+    <button type="submit" [disabled]="!form.valid">Login</button>
+    <p>
+      Don't have an account? <a [routerLink]="'/register'">Register here</a>
+    </p>
+  </form>
+</div>

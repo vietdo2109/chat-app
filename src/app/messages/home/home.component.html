@@ -1,0 +1,94 @@
+<div [className]="'container'">
+  <app-sidebar />
+  <div [className]="'container__chat'">
+    <div [className]="'container__chatlist'">
+      <div [className]="'container__search'">
+        <div [className]="'searchIcon'">
+          <mat-icon fontIcon="search"></mat-icon>
+        </div>
+        <input
+          style="border: none"
+          [className]="'searchBox'"
+          type="text"
+          placeholder="Search"
+          [(ngModel)]="searchInput"
+        />
+      </div>
+      <div [className]="'chatSlot'" *ngFor="let chatSlot of chatList">
+        <div [className]="'avatar'"></div>
+        <div [className]="'chatSlot__information'">
+          <div [className]="'chatSlot__header'">
+            <h5>{{ chatSlot.username }}</h5>
+            <p [className]="'latestMessage'" style="margin-right: 10px">1m</p>
+          </div>
+          <p [className]="'latestMessage'">{{ chatSlot.latestMessage }}</p>
+        </div>
+      </div>
+    </div>
+    <div [className]="'conversation'">
+      <div [className]="'conversation__header'">
+        <div>
+          <p [className]="'conversation__name'">Alice fadsf</p>
+          <p [className]="'conversation__status'">Online</p>
+        </div>
+        <div [className]="'icons_container'">
+          <div><mat-icon svgIcon="search" aria-hidden="false"></mat-icon></div>
+          <div><mat-icon svgIcon="phone" aria-hidden="false"></mat-icon></div>
+          <div><mat-icon svgIcon="more" aria-hidden="false"></mat-icon></div>
+        </div>
+      </div>
+
+      <div [className]="'conversation__content__container'">
+        <div [className]="'test__conversation'">
+          <app-detail
+            *ngFor="let chatSlot of chatSlots"
+            [chatSlot]="chatSlot"
+            (remove)="handleRemove($event)"
+          ></app-detail>
+        </div>
+      </div>
+
+      <div [className]="'conversation__input'">
+        <div class="textarea-side-div">
+          <div [className]="'button-container'">
+            <mat-icon
+              svgIcon="attach"
+              aria-hidden="false"
+              [className]="'attach-icon'"
+            ></mat-icon>
+            <div [className]="'overlay'"></div>
+          </div>
+        </div>
+
+        <div [className]="'textarea-container'">
+          <textarea
+            #chatInput
+            class="chat-textarea"
+            rows="1"
+            placeholder="Aa"
+            (input)="adjustHeight(chatInput)"
+          >
+          </textarea>
+          <div [className]="'smile-container'">
+            <mat-icon svgIcon="smile" aria-hidden="false"></mat-icon>
+          </div>
+        </div>
+
+        <div class="textarea-side-div">
+          <div [className]="'button-container'">
+            <mat-icon
+              svgIcon="send"
+              aria-hidden="false"
+              [className]="'send-icon'"
+            ></mat-icon>
+            <div [className]="'overlay'"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [className]="'container__info'">
+    <div [className]="'container__groupInfo'"></div>
+    <div [className]="'container__member'"></div>
+  </div>
+</div>

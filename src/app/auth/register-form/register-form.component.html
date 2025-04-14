@@ -1,0 +1,55 @@
+<div class="container">
+  <div [className]="'container-image'">
+    <img src="assets/images/logo-rec.png" alt="logo image" routerLink="" />
+  </div>
+
+  <form>
+    <div [className]="'separator'">
+      <div [className]="'deco-line'"></div>
+      <h5>Register</h5>
+      <div [className]="'deco-line'"></div>
+    </div>
+    <div [className]="'container-input'">
+      <label for="email">Username</label>
+      <input
+        type="text"
+        name="username"
+        placeholder="username"
+        [className]="'input-field'"
+      />
+    </div>
+    <div [className]="'container-input'">
+      <label for="email">Email</label>
+      <input
+        type="text"
+        name="email"
+        placeholder="email@example.com"
+        [className]="'input-field'"
+      />
+    </div>
+
+    <div [className]="'container-input'">
+      <label for="password">Password</label>
+      <input
+        [type]="'password'"
+        name="password"
+        type="text"
+        placeholder="password"
+        [className]="'input-field'"
+      />
+    </div>
+    <div [className]="'container-input'">
+      <label for="re-password">Re-enter password</label>
+      <input
+        [type]="'password'"
+        name="re-password"
+        type="text"
+        placeholder="password"
+        [className]="'input-field'"
+      />
+    </div>
+
+    <button>Register</button>
+    <p>Already had an account? <a [routerLink]="'/login'">Login here</a></p>
+  </form>
+</div>

@@ -1,0 +1,35 @@
+<div [className]="'container'">
+  <img src="assets/images/logo.png" alt="logo image" />
+
+  <div [className]="'button-container'">
+    <app-sidebar-button
+      [text]="'All chats'"
+      link="login"
+      iconName="forum"
+      badgeNum=""
+    />
+    <app-sidebar-button
+      [text]="'Works'"
+      link="login"
+      iconName="folder"
+      badgeNum="10"
+    />
+    <app-sidebar-button
+      [text]="'Friends'"
+      link="login"
+      iconName="folder"
+      badgeNum="0"
+    />
+    <app-sidebar-button [text]="'News'" link="login" iconName="folder" />
+    <app-sidebar-button
+      [text]="'Archive chats'"
+      link="login"
+      iconName="archive"
+    />
+
+    <div [className]="'separator'"></div>
+    <app-sidebar-button [text]="'Profile'" link="profile" iconName="person" />
+  </div>
+
+  <app-sidebar-button [text]="'Log out'" link="/login" iconName="logout" />
+</div>

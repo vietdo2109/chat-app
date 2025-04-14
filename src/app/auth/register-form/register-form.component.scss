@@ -1,0 +1,107 @@
+$black: #202022;
+$purple: #7678ed;
+$orange: #ff7a55;
+$white: #f9fafc;
+$purple-light: hsl(238, 85%, 92%);
+$icon-gray: #8e9092;
+.container-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+img {
+  width: 200px;
+  margin: 0px auto;
+}
+
+.container {
+  min-width: 300px;
+
+  background: $white;
+  padding: 60px 60px;
+  border-radius: 16px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.separator {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 20px;
+}
+
+h5 {
+  color: #2b2b2b;
+}
+.deco-line {
+  flex: 1;
+  height: 2px;
+  border-radius: 1px;
+  background-color: #2b2b2b;
+}
+
+label {
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 6px;
+}
+.container-input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  justify-content: center;
+}
+
+.input-field {
+  background-color: #eeeffa;
+  border: 2px solid black;
+  padding: 10px;
+  font-family: "Poppins", sans-serif;
+
+  border-radius: 10px;
+  height: fit-content;
+  resize: vertical;
+}
+
+.container-checkbox {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+p {
+  color: $black;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+button {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 10px;
+  background-color: #7678ed;
+  border: none;
+  padding: 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: $white;
+}
+
+a {
+  color: #7678ed;
+  cursor: pointer;
+}
+
+.remember-box {
+  accent-color: #7678ed;
+}

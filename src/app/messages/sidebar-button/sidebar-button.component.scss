@@ -1,0 +1,43 @@
+@use "@angular/material" as mat;
+
+p {
+  margin: 0;
+  text-align: center;
+  line-height: 16px;
+}
+
+$black: #202022;
+$purple: #7678ed;
+$orange: #ff7a55;
+$white: #f9fafc;
+
+.container {
+  color: #888986;
+  font-size: 14px;
+  :hover {
+    cursor: pointer;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  @include mat.badge-overrides(());
+
+  &__isCurrentRoute {
+    font-size: 14px;
+    :hover {
+      cursor: pointer;
+    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px;
+    border-radius: 8px;
+
+    color: $white;
+    background-color: #464646;
+  }
+}

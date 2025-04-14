@@ -1,0 +1,15 @@
+$black: #202022;
+$purple: #7678ed;
+$orange: #ff7a55;
+$white: #f9fafc;
+
+.p--orange {
+  color: $orange;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+}

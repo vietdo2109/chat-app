@@ -1,0 +1,18 @@
+$black: #202022;
+$purple: #7678ed;
+$orange: #ff7a55;
+$white: #f9fafc;
+
+.container {
+  display: flex;
+  background-color: $black;
+  padding: 8px;
+}
+
+p {
+  margin: 0;
+}
+
+.router-container {
+  flex: 1;
+}
