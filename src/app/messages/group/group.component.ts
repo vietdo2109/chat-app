@@ -45,6 +45,15 @@ export class GroupComponent implements OnInit {
     });
   }
 
+  private scrollToBottom() {
+    if (this.messagesContainer) {
+      setTimeout(() => {
+        this.messagesContainer.nativeElement.scrollTop =
+          this.messagesContainer.nativeElement.scrollHeight;
+      }, 0);
+    }
+  }
+
   private async handleRouteChange(newChatId: string) {
     // Leave previous chat if needed
     if (this.hasJoinedChat && this.chatId !== newChatId) {
@@ -87,15 +96,6 @@ export class GroupComponent implements OnInit {
           this.scrollToBottom(); // 👈 auto-scroll when new message arrives
         }
       });
-    }
-  }
-
-  private scrollToBottom() {
-    if (this.messagesContainer) {
-      setTimeout(() => {
-        this.messagesContainer.nativeElement.scrollTop =
-          this.messagesContainer.nativeElement.scrollHeight;
-      }, 0);
     }
   }
 
