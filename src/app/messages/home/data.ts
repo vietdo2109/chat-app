@@ -16,6 +16,8 @@ export const ATTACH_ICON = `
 export const SEND_ICON = `
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM8.47 8.98L11.47 5.98C11.54 5.91 11.62 5.86 11.71 5.82C11.89 5.74 12.1 5.74 12.28 5.82C12.37 5.86 12.45 5.91 12.52 5.98L15.52 8.98C15.81 9.27 15.81 9.75 15.52 10.04C15.37 10.19 15.18 10.26 14.99 10.26C14.8 10.26 14.61 10.19 14.46 10.04L12.74 8.32V14.51C12.74 14.92 12.4 15.26 11.99 15.26C11.58 15.26 11.24 14.92 11.24 14.51V8.32L9.52 10.04C9.23 10.33 8.75 10.33 8.46 10.04C8.17 9.75 8.18 9.28 8.47 8.98ZM18.24 17.22C16.23 17.89 14.12 18.23 12 18.23C9.88 18.23 7.77 17.89 5.76 17.22C5.37 17.09 5.16 16.66 5.29 16.27C5.42 15.88 5.85 15.66 6.24 15.8C9.96 17.04 14.05 17.04 17.77 15.8C18.16 15.67 18.59 15.88 18.72 16.27C18.84 16.67 18.63 17.09 18.24 17.22Z" fill="#7678ed"></path> </g></svg>`;
 
+export const ARROW_BACK_ICON =
+  '<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#202022" stroke="#202022"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>ionicons-v5-a</title><polyline points="244 400 100 256 244 112" style="fill:none;stroke:#202022;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></polyline><line x1="120" y1="256" x2="412" y2="256" style="fill:none;stroke:#202022;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></line></g></svg>';
 export type ChatSlot = {
   id: string; // Unique identifier for the chat (could be userId for 1-on-1 chat or groupId)
   avatarUrl: string; // URL of the chat avatar (user's profile picture or group icon)
@@ -23,98 +25,4 @@ export type ChatSlot = {
   latestMessage: string; // Last message in the chat
   latestMessageTime: Date; // Timestamp of the last message
   unreadCount: number; // Number of unread messages (optional)
-  isGroup: boolean; // Indicates if it's a group chat
 };
-
-export const chatSlots: ChatSlot[] = [
-  {
-    id: '1',
-    avatarUrl: 'https://example.com/avatar1.jpg',
-    username: 'Alice',
-    latestMessage: 'See you later!',
-    latestMessageTime: new Date('2024-04-01T12:30:00'),
-    unreadCount: 3,
-    isGroup: false,
-  },
-  {
-    id: '2',
-    avatarUrl: 'https://example.com/avatar2.jpg',
-    username: 'Bob',
-    latestMessage: "Sure, let's do it!",
-    latestMessageTime: new Date('2024-04-01T15:45:00'),
-    unreadCount: 0,
-    isGroup: false,
-  },
-  {
-    id: '3',
-    avatarUrl: 'https://example.com/avatar3.jpg',
-    username: 'Charlie',
-    latestMessage: 'Good morning!',
-    latestMessageTime: new Date('2024-04-02T08:00:00'),
-    unreadCount: 1,
-    isGroup: false,
-  },
-  {
-    id: '4',
-    avatarUrl: 'https://example.com/group1.jpg',
-    username: 'Project Team',
-    latestMessage: 'Deadline is tomorrow!',
-    latestMessageTime: new Date('2024-04-01T18:20:00'),
-    unreadCount: 5,
-    isGroup: true,
-  },
-  {
-    id: '5',
-    avatarUrl: 'https://example.com/avatar4.jpg',
-    username: 'David',
-    latestMessage: "Let's catch up soon.",
-    latestMessageTime: new Date('2024-04-01T21:10:00'),
-    unreadCount: 0,
-    isGroup: false,
-  },
-  {
-    id: '6',
-    avatarUrl: 'https://example.com/group2.jpg',
-    username: 'Family Chat',
-    latestMessage: 'Dinner at 7?',
-    latestMessageTime: new Date('2024-04-02T07:15:00'),
-    unreadCount: 2,
-    isGroup: true,
-  },
-  {
-    id: '7',
-    avatarUrl: 'https://example.com/avatar5.jpg',
-    username: 'Emma',
-    latestMessage: "I'll send the files soon.",
-    latestMessageTime: new Date('2024-04-02T10:05:00'),
-    unreadCount: 0,
-    isGroup: false,
-  },
-  {
-    id: '8',
-    avatarUrl: 'https://example.com/group3.jpg',
-    username: 'Gaming Buddies',
-    latestMessage: "Who's online tonight?",
-    latestMessageTime: new Date('2024-04-01T22:30:00'),
-    unreadCount: 6,
-    isGroup: true,
-  },
-  {
-    id: '9',
-    avatarUrl: 'https://example.com/avatar6.jpg',
-    username: 'Sophia',
-    latestMessage: 'Check your email!',
-    latestMessageTime: new Date('2024-04-01T19:45:00'),
-    unreadCount: 0,
-    isGroup: false,
-  },
-  {
-    id: '10',
-    avatarUrl: 'https://example.com/group4.jpg',
-    username: 'Work Colleagues',
-    latestMessage: 'Meeting rescheduled to 3 PM.',
-    latestMessageTime: new Date('2024-04-02T09:30:00'),
-    unreadCount: 4,
-    isGroup: true,
-  },
-];

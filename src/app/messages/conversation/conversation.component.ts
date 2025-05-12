@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IconsService } from '../../services/icons.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
@@ -34,6 +34,7 @@ export class ConversationComponent implements OnInit {
   sub!: Subscription;
   newMessage: string = '';
   private hasJoinedChat = false;
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
@@ -82,6 +83,7 @@ export class ConversationComponent implements OnInit {
           !this.messages.some((m) => m.id === msg.id)
         ) {
           this.messages.push(msg);
+          this.scrollToBottom(); // 👈 auto-scroll when new message arrives
         }
       });
     }
@@ -104,6 +106,15 @@ export class ConversationComponent implements OnInit {
     }
   }
 
+  private scrollToBottom() {
+    if (this.messagesContainer) {
+      setTimeout(() => {
+        this.messagesContainer.nativeElement.scrollTop =
+          this.messagesContainer.nativeElement.scrollHeight;
+      }, 0);
+    }
+  }
+
   sendMessage() {
     const trimmed = this.newMessage.trim();
     if (!trimmed) return;
@@ -119,6 +130,7 @@ export class ConversationComponent implements OnInit {
         console.log('✅ Message sent:', res);
         this.chatService.sendMessageViaSocket(res); // Optional for SignalR
         this.newMessage = '';
+        this.scrollToBottom(); // 👈 auto-scroll after sending message
       },
       error: (err) => {
         console.error('❌ Failed to send message:', err);

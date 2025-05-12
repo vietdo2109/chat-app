@@ -31,6 +31,9 @@ h5 {
     flex-direction: column;
     gap: 8px;
     width: 20%;
+    @media (max-width: 950px) {
+      display: none; // width < 660px
+    }
   }
   &__groupInfo {
     background-color: $white;
@@ -52,12 +55,15 @@ h5 {
   }
   &__chatlist {
     min-width: 30%;
-    display: flex;
+    display: flex; // width > 660px
     flex-direction: column;
     padding: 10px;
     gap: 6px;
     max-height: 100%;
     overflow-y: auto;
+    @media (max-width: 660px) {
+      display: none; // width < 660px
+    }
   }
   &__search {
     padding: 10px;
@@ -65,6 +71,25 @@ h5 {
     align-items: center;
     justify-content: center;
   }
+}
+
+.containter__back-button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.back-button {
+  cursor: pointer;
+  display: none; // width < 660px
+
+  @media (max-width: 660px) {
+    display: block; // width < 660px
+  }
+}
+.name-status {
+  display: flex;
+  flex-direction: column;
 }
 .searchIcon {
   border-top-left-radius: 10px;
@@ -136,7 +161,7 @@ app-chatslot {
   &__header {
     display: flex;
     align-items: center;
-    padding: 20px;
+    padding: 16px 20px;
     box-sizing: border-box;
     max-height: 100px;
     justify-content: space-between;
@@ -145,15 +170,14 @@ app-chatslot {
     width: 100%;
     flex: 1;
     background-color: $white;
-    margin-bottom: 5px;
   }
   &__name {
-    font-weight: 500;
-    font-size: 24px;
+    font-weight: 600;
+    font-size: 18px;
   }
   &__status {
     font-weight: 500;
-
+    font-size: 12px;
     color: $icon-gray;
   }
   &--hide {

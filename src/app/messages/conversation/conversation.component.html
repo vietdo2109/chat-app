@@ -28,11 +28,16 @@
     <!-- display messages -->
     <div [className]="chatId !== '' ? 'conversation' : 'conversation--hide'">
       <div [className]="'conversation__header'">
-        <div>
-          <p [className]="'conversation__name'">
-            {{ currentChatSlot.other?.userName || currentChatSlot.name }}
-          </p>
-          <p [className]="'conversation__status'">Online</p>
+        <div [className]="'containter__back-button'">
+          <div [className]="'back-button'" [routerLink]="'/messages'">
+            <mat-icon svgIcon="back" aria-hidden="false"></mat-icon>
+          </div>
+          <div [className]="'name-status'">
+            <p [className]="'conversation__name'">
+              {{ currentChatSlot.other?.userName }}
+            </p>
+            <p [className]="'conversation__status'">Online</p>
+          </div>
         </div>
         <div [className]="'icons_container'">
           <div><mat-icon svgIcon="search" aria-hidden="false"></mat-icon></div>
@@ -41,7 +46,7 @@
         </div>
       </div>
 
-      <div [className]="'conversation__content__container'">
+      <div [className]="'conversation__content__container'" #messagesContainter>
         <div [className]="'messages'">
           <div [className]="'message'" *ngFor="let message of messages">
             <app-message

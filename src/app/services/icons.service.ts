@@ -9,6 +9,7 @@ import {
   SMILE_ICON,
   ATTACH_ICON,
   SEND_ICON,
+  ARROW_BACK_ICON,
 } from '../messages/home/data';
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,10 @@ export class IconsService {
     iconRegistry.addSvgIconLiteral(
       'send',
       sanitizer.bypassSecurityTrustHtml(SEND_ICON)
+    );
+    iconRegistry.addSvgIconLiteral(
+      'back',
+      sanitizer.bypassSecurityTrustHtml(ARROW_BACK_ICON)
     );
   }
 }
