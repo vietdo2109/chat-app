@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <div [className]="'conversation__content__container'">
+      <div [className]="'conversation__content__container'" #messagesContainter>
         <div [className]="'messages'">
           <div [className]="'message'" *ngFor="let message of messages">
             <app-message

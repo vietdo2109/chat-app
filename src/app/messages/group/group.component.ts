@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IconsService } from '../../services/icons.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
@@ -36,6 +36,7 @@ export class GroupComponent implements OnInit {
   sub!: Subscription;
   newMessage: string = '';
   private hasJoinedChat = false;
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
@@ -83,8 +84,18 @@ export class GroupComponent implements OnInit {
           !this.messages.some((m) => m.id === msg.id)
         ) {
           this.messages.push(msg);
+          this.scrollToBottom(); // 👈 auto-scroll when new message arrives
         }
       });
+    }
+  }
+
+  private scrollToBottom() {
+    if (this.messagesContainer) {
+      setTimeout(() => {
+        this.messagesContainer.nativeElement.scrollTop =
+          this.messagesContainer.nativeElement.scrollHeight;
+      }, 0);
     }
   }
 
@@ -121,6 +132,7 @@ export class GroupComponent implements OnInit {
         this.chatService.sendMessageViaSocket(res); // Optional for SignalR
 
         this.newMessage = '';
+        this.scrollToBottom(); // 👈 auto-scroll when new message arrives
       },
       error: (err) => {
         console.error('❌ Failed to send message:', err);

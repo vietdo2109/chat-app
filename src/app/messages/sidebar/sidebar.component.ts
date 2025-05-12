@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-sidebar',
   standalone: false,
@@ -8,10 +7,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router) {}
 
   onLogout() {
     // delete the token
-    // this.authService.onLogout();
+    // after all done, navigate to login page
+    // this.router.navigate(['/auth/login']);
   }
 }
