@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-
+import { Component, Input, input } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sidebar-button',
   standalone: false,
@@ -10,9 +10,10 @@ export class SidebarButtonComponent {
   badgeNum = input();
   text = input();
   iconName = input();
-  link = input();
   currentRoute: string = '';
-  constructor() {}
+  @Input() onClick!: () => void;
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 }

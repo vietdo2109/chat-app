@@ -1,0 +1,20 @@
+.button-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  background-color: #202022;
+  opacity: 0%;
+  border-radius: 10px;
+  top: 0;
+}
+
+.overlay:hover {
+  opacity: 10%;
+}

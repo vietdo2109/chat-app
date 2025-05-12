@@ -1,0 +1,52 @@
+.chatSlot {
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+p {
+  margin: 0;
+  font-size: 12px;
+}
+h5 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.chatSlot:hover {
+  background: #eeeffa;
+}
+
+.avatar {
+  border-radius: 16%;
+  width: 60px;
+  height: 60px;
+  background-color: #464646;
+}
+
+.chatSlot__information {
+  display: flex;
+  height: 100%;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.chatSlot__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.latestActionDate {
+  color: #90969d;
+}
+
+.latestMessage {
+  color: #90969d;
+  min-height: 14px;
+}

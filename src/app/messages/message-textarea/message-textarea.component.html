@@ -1,0 +1,13 @@
+<div [className]="'textarea-container'">
+  <textarea
+    #chatInput
+    class="chat-textarea"
+    rows="1"
+    placeholder="Aa"
+    (input)="adjustHeight(chatInput)"
+  >
+  </textarea>
+  <div [className]="'smile-container'">
+    <mat-icon svgIcon="smile" aria-hidden="false"></mat-icon>
+  </div>
+</div>

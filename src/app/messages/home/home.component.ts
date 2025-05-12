@@ -1,8 +1,18 @@
-import { ChatSlot, chatSlots } from './data';
 import { Component } from '@angular/core';
-
-import { MyServiceService } from '../../services/my-service.service';
 import { IconsService } from '../../services/icons.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MessageService } from '../../services/message.service';
+import {
+  Message,
+  ConversationChatSlot,
+  Conversation,
+  GroupChatSlot,
+  Group,
+  ComposeChatSlot,
+  CreateMessageDTO,
+} from '../../types/data';
+import { ChatService } from '../../services/chat.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -11,60 +21,39 @@ import { IconsService } from '../../services/icons.service';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  art = {};
   constructor(
-    private artService: MyServiceService,
-    private iconService: IconsService
-  ) {
-    // const iconRegistry = inject(MatIconRegistry);
-    // const sanitizer = inject(DomSanitizer);
-    // iconRegistry.addSvgIconLiteral(
-    //   'phone',
-    //   sanitizer.bypassSecurityTrustHtml(PHONE_ICON)
-    // );
-    // iconRegistry.addSvgIconLiteral(
-    //   'search',
-    //   sanitizer.bypassSecurityTrustHtml(SEARCH_ICON)
-    // );
-    // iconRegistry.addSvgIconLiteral(
-    //   'more',
-    //   sanitizer.bypassSecurityTrustHtml(MORE_ICON)
-    // );
-    // iconRegistry.addSvgIconLiteral(
-    //   'smile',
-    //   sanitizer.bypassSecurityTrustHtml(SMILE_ICON)
-    // );
-    // iconRegistry.addSvgIconLiteral(
-    //   'attach',
-    //   sanitizer.bypassSecurityTrustHtml(ATTACH_ICON)
-    // );
-    // iconRegistry.addSvgIconLiteral(
-    //   'send',
-    //   sanitizer.bypassSecurityTrustHtml(SEND_ICON)
-    // );
-  }
+    private iconService: IconsService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private messageService: MessageService
+  ) {}
   searchInput = '';
-  chatSlots = chatSlots;
-  chatList = chatSlots;
-  adjustHeight(textarea: HTMLTextAreaElement) {
-    textarea.style.height = 'auto';
-    const scrollHeight = textarea.scrollHeight;
-    const maxHeight = 128; // 1.5em * 6 + padding = ~128px
+  conversationChatList: ConversationChatSlot[] = [];
+  groupChatList: GroupChatSlot[] = [];
+  isGroups: boolean = false;
 
-    textarea.style.height = Math.min(scrollHeight, maxHeight) + 'px';
-
-    textarea.style.overflowY = scrollHeight > maxHeight ? 'auto' : 'hidden';
-  }
-
-  handleRemove(event: ChatSlot) {
-    this.chatSlots = this.chatSlots.filter(
-      (chatSlot) => chatSlot.id !== event.id
-    );
-  }
   ngOnInit() {
-    this.artService.getArt().subscribe((data) => {
-      console.log(data);
-      this.art = data;
+    this.route.url.subscribe((segments) => {
+      const isGroupPath = segments.some((s) => s.path === 'groups');
+      this.isGroups = isGroupPath;
+
+      if (this.isGroups) {
+        this.messageService.getGroupsMembers().subscribe({
+          next: (res: Group[]) => {
+            console.log('groupsMembers', res);
+            this.groupChatList = res;
+          },
+        });
+      } else {
+        this.messageService.getConversations().subscribe({
+          next: (res: Conversation[]) => {
+            console.log('conversations', res);
+            this.conversationChatList = res;
+          },
+        });
+      }
     });
   }
+
+  ngOnDestroy(): void {}
 }

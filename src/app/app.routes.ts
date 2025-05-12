@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -6,13 +7,15 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./messages/messages.module').then((m) => m.MessagesModule),
   },
+
   {
-    path: '',
+    path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
 
-  // {
-  //   path: 'messages',
-  //   loadChildren: () => import
-  // },
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+  {
+    path: '**',
+    loadComponent: () => NotFoundComponent,
+  },
 ];

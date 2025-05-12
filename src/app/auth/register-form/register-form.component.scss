@@ -15,7 +15,7 @@ img {
 }
 
 .container {
-  min-width: 300px;
+  width: 300px;
 
   background: $white;
   padding: 60px 60px;
@@ -85,16 +85,8 @@ p {
   font-weight: 500;
 }
 
-button {
-  margin-top: 10px;
+app-button {
   width: 100%;
-  border-radius: 10px;
-  background-color: #7678ed;
-  border: none;
-  padding: 10px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  color: $white;
 }
 
 a {

@@ -1,0 +1,45 @@
+<div
+  *ngIf="!isGroup()"
+  [className]="'chatSlot'"
+  [routerLink]="'/messages/' + chatSlot()?.id"
+>
+  <div [className]="'avatar'"></div>
+  <div [className]="'chatSlot__information'">
+    <div [className]="'chatSlot__header'">
+      <h5>{{ chatSlot()?.other?.userName }}</h5>
+    </div>
+    <p [className]="'latestMessage'">
+      {{
+        chatSlot()?.latestMessage?.senderId === chatSlot()?.self?.id
+          ? "You: " + chatSlot()?.latestMessage?.text
+          : chatSlot()?.latestMessage?.text
+      }}
+      •
+      {{ chatSlot()?.latestActionDate | timeAgo }}
+    </p>
+  </div>
+</div>
+
+<div
+  *ngIf="isGroup()"
+  [className]="'chatSlot'"
+  [routerLink]="'/messages/groups/' + chatSlot()?.id"
+>
+  <div [className]="'avatar'"></div>
+  <div [className]="'chatSlot__information'">
+    <div [className]="'chatSlot__header'">
+      <h5>{{ chatSlot()?.name }}</h5>
+    </div>
+    <p [className]="'latestMessage'">
+      {{
+        chatSlot()?.latestMessage?.senderId === chatSlot()?.self?.id
+          ? "You: " + chatSlot()?.latestMessage?.text
+          : chatSlot()?.latestMessage?.senderName +
+            ": " +
+            chatSlot()?.latestMessage?.text
+      }}
+      •
+      {{ chatSlot()?.latestActionDate | timeAgo }}
+    </p>
+  </div>
+</div>

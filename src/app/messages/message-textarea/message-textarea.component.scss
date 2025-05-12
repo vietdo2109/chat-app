@@ -1,0 +1,33 @@
+.chat-textarea {
+  resize: none;
+  overflow-y: auto;
+  min-height: 1.5em;
+  max-height: calc(1.5em * 6 + 16px); /* 4 lines + padding */
+  line-height: 1.5em;
+  padding: 10px;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  background-color: #eeeffa;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  font-size: 16px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow-y: hidden; /* prevent scrollbar unless overflow happens */
+}
+
+.textarea-container {
+  display: flex;
+  flex: 1;
+}
+
+.smile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  background-color: #eeeffa;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}

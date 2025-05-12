@@ -1,0 +1,4 @@
+<button [disabled]="status() === 'pending'">
+  <span *ngIf="status() === 'pending'">spining...</span>
+  <span *ngIf="status() !== 'pending'"><Label></Label>{{ text() }}</span>
+</button>
