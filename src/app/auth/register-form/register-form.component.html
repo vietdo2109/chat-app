@@ -3,7 +3,7 @@
     <img src="assets/images/logo-rec.png" alt="logo image" routerLink="" />
   </div>
 
-  <form>
+  <form #form="ngForm" (ngSubmit)="handleSubmit()">
     <div [className]="'separator'">
       <div [className]="'deco-line'"></div>
       <h5>Register</h5>
@@ -12,44 +12,59 @@
     <div [className]="'container-input'">
       <label for="email">Username</label>
       <input
+        [(ngModel)]="data.username"
+        #email="ngModel"
         type="text"
         name="username"
         placeholder="username"
         [className]="'input-field'"
       />
+      <app-error-text [error]="error.username" [text]="error.username" />
     </div>
     <div [className]="'container-input'">
       <label for="email">Email</label>
       <input
-        type="text"
+        [(ngModel)]="data.email"
+        #email="ngModel"
+        type="email"
         name="email"
         placeholder="email@example.com"
         [className]="'input-field'"
       />
+      <app-error-text [error]="error.email" [text]="error.email" />
     </div>
 
     <div [className]="'container-input'">
       <label for="password">Password</label>
       <input
+        [(ngModel)]="data.password"
+        #password="ngModel"
         [type]="'password'"
         name="password"
         type="text"
         placeholder="password"
         [className]="'input-field'"
       />
+      <app-error-text [error]="error.password" [text]="error.password" />
     </div>
+
     <div [className]="'container-input'">
       <label for="re-password">Re-enter password</label>
       <input
+        [(ngModel)]="data.rePassword"
+        #rePassword="ngModel"
         [type]="'password'"
         name="re-password"
         type="text"
         placeholder="password"
         [className]="'input-field'"
       />
+      <app-error-text [error]="error.rePassword" [text]="error.rePassword" />
     </div>
 
-    <button>Register</button>
-    <p>Already had an account? <a [routerLink]="'/login'">Login here</a></p>
+    <app-button [status]="status" text="Register" />
+    <p>
+      Already had an account? <a [routerLink]="'/auth/login'">Login here</a>
+    </p>
   </form>
 </div>

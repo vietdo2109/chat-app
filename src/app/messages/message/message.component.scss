@@ -1,0 +1,42 @@
+$self-bubble: #7375e8;
+$other-bubble: #eeeffa;
+$self-text: #e3e9f7;
+
+p {
+  margin: 0px;
+  font-size: 13px;
+}
+
+h5 {
+  margin: 0px;
+  margin-right: 5px;
+}
+.message__container--self {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.message__container {
+  width: 100%;
+  display: flex;
+}
+
+.message__bubble--self {
+  display: flex;
+  max-width: 500px;
+  align-items: center;
+  background-color: $self-bubble;
+  color: $self-text;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.message__bubble {
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  background-color: $other-bubble;
+  padding: 10px;
+  border-radius: 10px;
+}

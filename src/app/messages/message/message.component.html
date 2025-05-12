@@ -1,0 +1,12 @@
+<div
+  [className]="
+    isSelfMessage() ? 'message__container--self' : 'message__container'
+  "
+>
+  <div
+    [className]="isSelfMessage() ? 'message__bubble--self' : 'message__bubble'"
+  >
+    <h5>{{ message()?.senderName }}</h5>
+    <p>{{ message()?.text }}</p>
+  </div>
+</div>

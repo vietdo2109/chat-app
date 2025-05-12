@@ -1,0 +1,89 @@
+<div [className]="'container'">
+  <app-sidebar />
+  <div [className]="'container__chat'">
+    <!-- chatlist -->
+    <div [className]="'container__chatlist'">
+      <div [className]="'container__search'">
+        <div [className]="'searchIcon'">
+          <mat-icon fontIcon="search"></mat-icon>
+        </div>
+        <input
+          style="border: none"
+          [className]="'searchBox'"
+          type="text"
+          placeholder="Search"
+          [(ngModel)]="searchInput"
+        />
+      </div>
+      <div>
+        <app-chatslot
+          *ngFor="let chatSlot of groupChatList"
+          [chatSlot]="chatSlot"
+          [isGroup]="isGroups"
+        />
+      </div>
+    </div>
+    <!-- chatlist -->
+
+    <!-- display messages -->
+    <div [className]="chatId !== '' ? 'conversation' : 'conversation--hide'">
+      <div [className]="'conversation__header'">
+        <div>
+          <p [className]="'conversation__name'">
+            {{ currentChatSlot.other?.userName || currentChatSlot.name }}
+          </p>
+          <p [className]="'conversation__status'">Online</p>
+        </div>
+        <div [className]="'icons_container'">
+          <div><mat-icon svgIcon="search" aria-hidden="false"></mat-icon></div>
+          <div><mat-icon svgIcon="phone" aria-hidden="false"></mat-icon></div>
+          <div><mat-icon svgIcon="more" aria-hidden="false"></mat-icon></div>
+        </div>
+      </div>
+
+      <div [className]="'conversation__content__container'">
+        <div #chatContainer [className]="'messages'">
+          <div [className]="'message'" *ngFor="let message of messages">
+            <app-message
+              [message]="message"
+              [isSelfMessage]="message.senderId === currentChatSlot.self?.id"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- display messages -->
+
+      <!-- input bar -->
+      <div [className]="'conversation__input'">
+        <div class="textarea-side-div">
+          <app-message-button svgIcon="attach" />
+        </div>
+
+        <div [className]="'textarea-container'">
+          <textarea
+            #chatInput
+            class="chat-textarea"
+            [(ngModel)]="newMessage"
+            (keydown)="handleKeyDown($event)"
+            rows="1"
+            placeholder="Aa"
+            (input)="adjustHeight(chatInput)"
+          >
+          </textarea>
+          <div [className]="'smile-container'">
+            <mat-icon svgIcon="smile" aria-hidden="false"></mat-icon>
+          </div>
+        </div>
+
+        <div class="textarea-side-div">
+          <app-message-button svgIcon="send" />
+        </div>
+      </div>
+      <!-- input bar -->
+    </div>
+  </div>
+  <div [className]="'container__info'">
+    <div [className]="'container__groupInfo'"></div>
+    <div [className]="'container__member'"></div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+$black: #202022;
+$purple: #7678ed;
+$orange: #ff7a55;
+$white: #f9fafc;
+
+button {
+  width: 100%;
+  border-radius: 10px;
+  background-color: #7678ed;
+  border: none;
+  padding: 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: $white;
+
+  &:disabled {
+    background-color: gray;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}

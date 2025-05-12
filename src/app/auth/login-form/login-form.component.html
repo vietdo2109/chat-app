@@ -3,7 +3,7 @@
     <img src="assets/images/logo-rec.png" alt="logo image" routerLink="" />
   </div>
 
-  <form #form="ngForm" (ngSubmit)="handleSubmit(form)">
+  <form #form="ngForm" (ngSubmit)="handleSubmit()">
     <div [className]="'separator'">
       <div [className]="'deco-line'"></div>
       <h5>Login</h5>
@@ -19,6 +19,7 @@
         placeholder="email@example.com"
         [className]="'input-field'"
       />
+      <app-error-text [error]="error.email" [text]="error.email" />
     </div>
     <div [className]="'container-input'">
       <label for="password">Password</label>
@@ -30,21 +31,23 @@
         placeholder="password"
         [className]="'input-field'"
       />
+      <app-error-text [error]="error.password" [text]="error.password" />
     </div>
 
     <div [className]="'container-checkbox'">
       <input
         type="checkbox"
-        name="isRemember"
+        name="rememberMe"
         [className]="'remember-box'"
-        [(ngModel)]="data.isRemember"
+        [(ngModel)]="data.rememberMe"
       />
       <p>Remember me</p>
     </div>
 
-    <button type="submit" [disabled]="!form.valid">Login</button>
+    <app-button [status]="status" text="Login"></app-button>
     <p>
-      Don't have an account? <a [routerLink]="'/register'">Register here</a>
+      Don't have an account?
+      <a [routerLink]="'/auth/register'">Register here</a>
     </p>
   </form>
 </div>

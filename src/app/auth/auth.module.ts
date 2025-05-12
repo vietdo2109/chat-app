@@ -7,12 +7,23 @@ import { RegisterFormComponent } from './register-form/register-form.component';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import {
+  HttpClient,
+  HttpClientModule,
+  HttpHandler,
+} from '@angular/common/http';
+import { ButtonComponent } from '../components/button/button.component';
+import { ErrorTextComponent } from '../components/error-text/error-text.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     RouterLink,
+    ButtonComponent,
+    ErrorTextComponent,
+    HttpClientModule,
     RouterModule.forChild([
       {
         path: 'login',
@@ -36,5 +47,6 @@ import { RouterModule } from '@angular/router';
     LoginFormComponent,
     RegisterFormComponent,
   ],
+  providers: [AuthService],
 })
 export class AuthModule {}
