@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { CreateMessageDTO } from '../types/Message';
+import { CreateMessageDTO } from '../types/messages';
 const BASE_URL = 'https://localhost:7159/api';
 
 @Injectable({

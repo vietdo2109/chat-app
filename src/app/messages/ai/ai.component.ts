@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { ChatService } from '../../services/chat.service';
 import { Subscription } from 'rxjs';
-import { Message } from '../../types/Message';
+import { Message } from '../../types/messages';
 import { ComposeChatSlot } from '../../types/data';
 import { AI, AIChatSlot, GenContentRequest } from '../../types/ai';
 import { AiService } from '../../services/ai.service';

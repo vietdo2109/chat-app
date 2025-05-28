@@ -1,5 +1,5 @@
 import { UserDTO } from './data';
-import { Message } from './Message';
+import { Message } from './messages';
 
 export type Group = {
   id: string;

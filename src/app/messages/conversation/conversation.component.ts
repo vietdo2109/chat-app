@@ -6,7 +6,7 @@ import { Conversation, ConversationChatSlot } from '../../types/conversation';
 import { ChatService } from '../../services/chat.service';
 import { Subscription } from 'rxjs';
 import { ComposeChatSlot } from '../../types/data';
-import { CreateMessageDTO, Message } from '../../types/Message';
+import { CreateMessageDTO, Message } from '../../types/messages';
 @Component({
   selector: 'app-conversation',
   standalone: false,

@@ -6,7 +6,7 @@ import { MessageService } from '../../services/message.service';
 import { ChatService } from '../../services/chat.service';
 import { Subscription } from 'rxjs';
 import { Group, GroupChatSlot } from '../../types/group';
-import { CreateMessageDTO, Message } from '../../types/Message';
+import { CreateMessageDTO, Message } from '../../types/messages';
 import { ComposeChatSlot } from '../../types/data';
 
 @Component({
