@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, Input, input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-message-button',
@@ -8,6 +8,7 @@ import { Component, input, OnInit } from '@angular/core';
 })
 export class MessageButtonComponent implements OnInit {
   svgIcon = input('');
+  @Input() onClick!: () => void;
   constructor() {}
 
   ngOnInit() {}
