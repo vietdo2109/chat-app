@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { AI, CreateAIModel, GenContentRequest } from '../types/ai';
 import { map, Observable } from 'rxjs';
 import { Message } from '../types/messages';
-const BASE_URL = 'https://localhost:7159/api';
+const BASE_URL =
+  'https://app-chat-dev-001-h5h0h4enfjg5c5cc.canadacentral-01.azurewebsites.net/api';
 
 @Injectable({
   providedIn: 'root',
