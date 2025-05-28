@@ -1,0 +1,33 @@
+$self-bubble: #7375e8;
+$other-bubble: #eeeffa;
+$self-text: #e3e9f7;
+@use "@angular/material" as mat;
+.message__bubble {
+  @include mat.progress-spinner-overrides(
+    (
+      active-indicator-color: #7375e8,
+      size: 10px,
+    )
+  );
+}
+
+.message__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.message__bubble {
+  max-width: 20px;
+  max-height: 20px;
+  display: flex;
+  background-color: $other-bubble;
+  padding: 8px 12px;
+  border-radius: 10px;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 660px) {
+    max-width: 20px;
+  }
+}

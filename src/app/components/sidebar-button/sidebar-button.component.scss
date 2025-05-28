@@ -25,7 +25,7 @@ $white: #f9fafc;
   border-radius: 8px;
   @include mat.badge-overrides(());
 
-  &__isCurrentRoute {
+  &--current {
     font-size: 14px;
     :hover {
       cursor: pointer;

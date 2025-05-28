@@ -2,15 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IconsService } from '../../services/icons.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
-import {
-  Message,
-  ConversationChatSlot,
-  Conversation,
-  ComposeChatSlot,
-  CreateMessageDTO,
-} from '../../types/data';
+import { Conversation, ConversationChatSlot } from '../../types/conversation';
 import { ChatService } from '../../services/chat.service';
 import { Subscription } from 'rxjs';
+import { ComposeChatSlot } from '../../types/data';
+import { CreateMessageDTO, Message } from '../../types/Message';
 @Component({
   selector: 'app-conversation',
   standalone: false,
@@ -20,7 +16,6 @@ import { Subscription } from 'rxjs';
 export class ConversationComponent implements OnInit {
   constructor(
     private iconService: IconsService,
-    private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private chatService: ChatService
@@ -34,7 +29,12 @@ export class ConversationComponent implements OnInit {
   sub!: Subscription;
   newMessage: string = '';
   private hasJoinedChat = false;
-  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
+  @ViewChild('messagesContainter') private messagesContainer!: ElementRef;
+
+  // loading messages variables
+  isLoadingMessages: boolean = false;
+  currentPage = 1;
+  itemsPerPage = 15;
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
@@ -44,6 +44,9 @@ export class ConversationComponent implements OnInit {
   }
 
   private async handleRouteChange(newChatId: string) {
+    this.currentPage = 1;
+    this.isLoadingMessages = false;
+
     // Leave previous chat if needed
     if (this.hasJoinedChat && this.chatId !== newChatId) {
       this.chatService.leaveChat(this.chatId);
@@ -61,11 +64,21 @@ export class ConversationComponent implements OnInit {
       },
     });
 
-    this.messageService.getMessagesByConversationId(this.chatId).subscribe({
-      next: (res: Message[]) => {
-        this.messages = res;
-      },
-    });
+    this.messageService
+      .getMessagesByConversationId(
+        this.chatId,
+        this.currentPage,
+        this.itemsPerPage
+      )
+      .subscribe({
+        next: (res: Message[]) => {
+          this.messages = res;
+          console.log('messages', res);
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 200); // Use a slight delay
+        },
+      });
 
     // Start SignalR connection if not started
     await this.chatService.startConnection();
@@ -75,18 +88,19 @@ export class ConversationComponent implements OnInit {
     this.hasJoinedChat = true;
 
     // Subscribe once to new messages
-    if (!this.sub) {
-      this.sub = this.chatService.newMessages$.subscribe((msg) => {
-        if (
-          msg &&
-          msg.chatId === this.chatId &&
-          !this.messages.some((m) => m.id === msg.id)
-        ) {
-          this.messages.push(msg);
-          this.scrollToBottom(); // 👈 auto-scroll when new message arrives
-        }
-      });
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
+    this.sub = this.chatService.newMessages$.subscribe((msg) => {
+      if (
+        msg &&
+        msg.chatId === this.chatId &&
+        !this.messages.some((m) => m.id === msg.id)
+      ) {
+        this.messages.push(msg);
+        this.scrollToBottom();
+      }
+    });
   }
 
   adjustHeight(textarea: HTMLTextAreaElement) {
@@ -106,7 +120,7 @@ export class ConversationComponent implements OnInit {
     }
   }
 
-  private scrollToBottom() {
+  scrollToBottom() {
     if (this.messagesContainer) {
       setTimeout(() => {
         this.messagesContainer.nativeElement.scrollTop =
@@ -136,6 +150,45 @@ export class ConversationComponent implements OnInit {
         console.error('❌ Failed to send message:', err);
       },
     });
+  }
+
+  toggleLoading() {
+    this.isLoadingMessages = !this.isLoadingMessages;
+  }
+
+  loadMoreMessages() {
+    if (this.isLoadingMessages) return;
+    this.toggleLoading();
+    this.messageService
+      .getMessagesByConversationId(
+        this.chatId,
+        this.currentPage,
+        this.itemsPerPage
+      )
+      .subscribe({
+        next: (res) => {
+          this.messages = [...res, ...this.messages];
+          this.currentPage += 1;
+        },
+        error: (err) => console.log(err),
+        complete: () => {
+          this.toggleLoading();
+        },
+      });
+  }
+
+  shouldShowSenderName(index: number): boolean {
+    if (index === 0) return true;
+    return this.messages[index].senderId !== this.messages[index - 1].senderId;
+  }
+
+  onScroll() {
+    if (this.currentPage === 1) {
+      this.currentPage = 2;
+    }
+    this.loadMoreMessages();
+    console.log(this.isLoadingMessages);
+    console.log('scroliing');
   }
 
   ngOnDestroy(): void {

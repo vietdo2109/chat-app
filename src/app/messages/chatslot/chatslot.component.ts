@@ -1,10 +1,7 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, Input, input, OnInit } from '@angular/core';
 
-import {
-  ComposeChatSlot,
-  ConversationChatSlot,
-  GroupChatSlot,
-} from '../../types/data';
+import { ComposeChatSlot } from '../../types/data';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chatslot',
@@ -13,10 +10,16 @@ import {
   styleUrls: ['./chatslot.component.scss'],
 })
 export class ChatslotComponent implements OnInit {
-  isGroup = input<boolean>();
-  chatSlot = input<ComposeChatSlot>();
+  @Input() type!: 'conversation' | 'group' | 'ai';
+  @Input() chatSlot!: ComposeChatSlot;
+  @Input() currentChatSlot!: string;
+  isCurrent: boolean = false;
+  safeAvatarUrl: SafeUrl | null = null;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isCurrent = this.currentChatSlot === this.chatSlot.id;
+    console.log(this.chatSlot.avatar);
+  }
 }

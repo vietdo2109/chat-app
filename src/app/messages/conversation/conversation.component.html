@@ -19,7 +19,8 @@
         <app-chatslot
           *ngFor="let chatSlot of conversationChatList"
           [chatSlot]="chatSlot"
-          [isGroup]="isGroups"
+          [type]="'conversation'"
+          [currentChatSlot]="chatId"
         />
       </div>
     </div>
@@ -46,12 +47,26 @@
         </div>
       </div>
 
-      <div [className]="'conversation__content__container'" #messagesContainter>
+      <div
+        [className]="'conversation__content__container'"
+        #messagesContainter
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollUpDistance]="2"
+        [infiniteScrollThrottle]="100"
+        [fromRoot]="false"
+        [scrollWindow]="false"
+        (scrolledUp)="onScroll()"
+      >
         <div [className]="'messages'">
-          <div [className]="'message'" *ngFor="let message of messages">
+          <div
+            [className]="'message'"
+            *ngFor="let message of messages; let i = index"
+          >
             <app-message
               [message]="message"
               [isSelfMessage]="message.senderId === currentChatSlot.self?.id"
+              [showSenderName]="shouldShowSenderName(i)"
             />
           </div>
         </div>

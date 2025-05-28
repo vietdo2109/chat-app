@@ -1,4 +1,7 @@
-<div [className]="'container'" (click)="onClick()">
+<div
+  [className]="isCurrentRoute ? 'container--current' : 'container'"
+  (click)="onClick()"
+>
   <mat-icon
     fontIcon="{{ iconName() }}
         "

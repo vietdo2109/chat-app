@@ -1,47 +1,50 @@
-import { Injectable } from '@angular/core';
+// auth.interceptor.ts
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
   HttpErrorResponse,
-  HttpClient,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
+import { AuthService } from './services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private http: HttpClient) {}
+  private isRefreshing = false;
+
+  constructor(private injector: Injector) {} // 🔁 instead of injecting AuthService directly
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // Clone the request and add withCredentials so cookies are sent
-    const authReq = req.clone({
-      withCredentials: true,
-    });
+    // All requests should include cookies
+    const clonedReq = req.clone({ withCredentials: true });
+    const authService = this.injector.get(AuthService); // 🪄 lazily get AuthService
 
-    return next.handle(authReq).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 && !req.url.endsWith('/auth/refresh')) {
-          // Try refreshing the token
-          return this.http
-            .post('/api/auth/refresh', {}, { withCredentials: true })
-            .pipe(
-              switchMap(() => {
-                // Retry the original request after successful refresh
-                const retryReq = req.clone({ withCredentials: true });
-                return next.handle(retryReq);
-              }),
-              catchError((refreshError) => {
-                // If refresh fails, possibly redirect to login
-                console.error('Token refresh failed:', refreshError);
-                return throwError(() => refreshError);
-              })
-            );
+    return next.handle(clonedReq).pipe(
+      catchError((error) => {
+        if (
+          error instanceof HttpErrorResponse &&
+          error.status === 401 &&
+          !this.isRefreshing
+        ) {
+          this.isRefreshing = true;
+          return authService.refreshToken().pipe(
+            switchMap(() => {
+              this.isRefreshing = false;
+              return next.handle(clonedReq); // Retry the request
+            }),
+            catchError((err) => {
+              this.isRefreshing = false;
+              authService.onLogout(); // Optionally log user out
+              return throwError(() => err);
+            })
+          );
         }
-
         return throwError(() => error);
       })
     );

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
-import { Message } from '../types/data';
+import { Message } from '../types/Message';
 
 @Injectable({
   providedIn: 'root',

@@ -1,3 +1,5 @@
+$purple-light: hsl(238, 85%, 92%);
+
 .chatSlot {
   padding: 8px;
   border-radius: 8px;
@@ -5,6 +7,15 @@
   align-items: center;
   gap: 10px;
   width: 100%;
+  &--current {
+    background: $purple-light;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
 }
 
 p {
@@ -20,11 +31,17 @@ h5 {
   background: #eeeffa;
 }
 
-.avatar {
+.avatar-container {
   border-radius: 16%;
   width: 60px;
   height: 60px;
-  background-color: #464646;
+  overflow: hidden;
+}
+
+.avatar {
+  object-fit: cover;
+  width: 60px;
+  height: 60px;
 }
 
 .chatSlot__information {

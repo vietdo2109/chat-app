@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CreateMessageDTO } from '../types/data';
+import { Observable, map } from 'rxjs';
+import { CreateMessageDTO } from '../types/Message';
 const BASE_URL = 'https://localhost:7159/api';
 
 @Injectable({
@@ -10,13 +10,22 @@ const BASE_URL = 'https://localhost:7159/api';
 export class MessageService {
   constructor(private http: HttpClient) {}
 
-  getConversationMessages(conversationId: string): Observable<any> {
-    return this.http.get(
-      `${BASE_URL}/conversations/${conversationId}/messages`,
-      {
-        withCredentials: true, // 👈 REQUIRED or cookies won't be sent
-      }
-    );
+  getMessagesByConversationId(
+    conversationId: string,
+    pageNumber: number,
+    pageSize: number
+  ): Observable<any[]> {
+    return this.http
+      .get<any[]>(`${BASE_URL}/conversations/${conversationId}/messages`, {
+        params: {
+          pageNumber: pageNumber.toString(),
+          pageSize: pageSize.toString(),
+        },
+        withCredentials: true,
+      })
+      .pipe(
+        map((messages) => messages.reverse()) // ← this should reverse the array
+      );
   }
 
   getGroupsMembers(): Observable<any> {
@@ -31,19 +40,28 @@ export class MessageService {
     });
   }
 
-  getMessagesByConversationId(conversationId: string): Observable<any> {
-    return this.http.get(
-      `${BASE_URL}/conversations/${conversationId}/messages`,
-      {
-        withCredentials: true, // 👈 REQUIRED or cookies won't be sent
-      }
-    );
-  }
+  //  sendAIMessage(message: CreateMessageDTO): Observable<any> {
+  //   return this.http.post(`${BASE_URL}/messages`, message, {
+  //     withCredentials: true, // to include cookies for auth
+  //   });
+  // }
 
-  getMessagesByGroupId(groupId: string): Observable<any> {
-    return this.http.get(`${BASE_URL}/groups/${groupId}/messages`, {
-      withCredentials: true, // 👈 REQUIRED or cookies won't be sent
-    });
+  getMessagesByGroupId(
+    groupId: string,
+    pageNumber: number,
+    pageSize: number
+  ): Observable<any[]> {
+    return this.http
+      .get<any[]>(`${BASE_URL}/groups/${groupId}/messages`, {
+        params: {
+          pageNumber: pageNumber.toString(),
+          pageSize: pageSize.toString(),
+        },
+        withCredentials: true, // 👈 REQUIRED or cookies won't be sent
+      })
+      .pipe(
+        map((messages) => messages.reverse()) // ← this should reverse the array
+      );
   }
 
   sendMessage(message: CreateMessageDTO): Observable<any> {
