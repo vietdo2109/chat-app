@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AI, CreateAIModel, GenContentRequest } from '../types/ai';
 import { map, Observable } from 'rxjs';
-import { Message } from '../types/Message';
+import { Message } from '../types/messages';
 const BASE_URL = 'https://localhost:7159/api';
 
 @Injectable({

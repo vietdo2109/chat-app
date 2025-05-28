@@ -1,4 +1,4 @@
-import { Message } from './Message';
+import { Message } from './messages';
 
 export type UserDTO = {
   id: string;
