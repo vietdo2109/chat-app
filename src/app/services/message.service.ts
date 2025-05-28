@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { CreateMessageDTO } from '../types/messages';
-const BASE_URL = 'https://localhost:7159/api';
+const BASE_URL =
+  'https://app-chat-dev-001-h5h0h4enfjg5c5cc.canadacentral-01.azurewebsites.net/api';
 
 @Injectable({
   providedIn: 'root',

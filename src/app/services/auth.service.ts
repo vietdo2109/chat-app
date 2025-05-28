@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
 
-const BASE_URL = 'https://localhost:7159/api/account';
+const BASE_URL =
+  'https://app-chat-dev-001-h5h0h4enfjg5c5cc.canadacentral-01.azurewebsites.net/api/account';
 
 type LoginObject = {
   email: string;

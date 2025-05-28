@@ -17,7 +17,9 @@ export class ChatService {
     else {
       this.connectionStarted = true;
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl('https://localhost:7159/chatHub') // 👈 your backend URL
+        .withUrl(
+          'https://app-chat-dev-001-h5h0h4enfjg5c5cc.canadacentral-01.azurewebsites.net/chatHub'
+        ) // 👈 your backend URL
         .withAutomaticReconnect()
         .build();
 
