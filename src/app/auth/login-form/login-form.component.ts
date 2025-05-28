@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 type LoginData = {
   email: string;
   password: string;
@@ -26,7 +27,11 @@ export class LoginFormComponent {
   status: 'idle' | 'pending' | 'success' | 'error' = 'idle';
   error: LoginError = {};
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private httpClient: HttpClient
+  ) {}
   handleSubmit() {
     this.error = {};
 
@@ -42,7 +47,7 @@ export class LoginFormComponent {
           console.log(res.message);
           this.status = 'success';
           // navigate, show toast, etc.
-          this.router.navigate(['/messages']);
+          this.router.navigate(['/messages/conversations']);
         },
         error: (err) => {
           if (err.error == 'No user with this email!') {

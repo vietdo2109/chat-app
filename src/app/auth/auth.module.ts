@@ -8,11 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import {
-  HttpClient,
-  HttpClientModule,
-  HttpHandler,
-} from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ButtonComponent } from '../components/button/button.component';
 import { ErrorTextComponent } from '../components/error-text/error-text.component';
 
@@ -47,6 +43,6 @@ import { ErrorTextComponent } from '../components/error-text/error-text.componen
     LoginFormComponent,
     RegisterFormComponent,
   ],
-  providers: [AuthService],
+  providers: [AuthService, HttpClient],
 })
 export class AuthModule {}

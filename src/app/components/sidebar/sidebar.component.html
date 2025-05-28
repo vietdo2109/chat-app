@@ -1,0 +1,40 @@
+<div [className]="'container'">
+  <img src="assets/images/logo.png" alt="logo image" />
+
+  <div [className]="'button-container'">
+    <app-sidebar-button
+      [text]="'Chats'"
+      [isCurrentRoute]="currentRoute === 'conversations'"
+      [routerLink]="'/messages/conversations'"
+      iconName="forum"
+      badgeNum="0"
+    />
+
+    <app-sidebar-button
+      [text]="'Groups'"
+      [isCurrentRoute]="currentRoute === 'groups'"
+      [routerLink]="'/messages/groups'"
+      iconName="forum"
+    />
+    <app-sidebar-button
+      [isCurrentRoute]="currentRoute === 'ais'"
+      [text]="'Your AI'"
+      [routerLink]="'/messages/ais'"
+      iconName="archive"
+    />
+
+    <div [className]="'separator'"></div>
+    <app-sidebar-button
+      [isCurrentRoute]="currentRoute === 'profile'"
+      [text]="'Profile'"
+      [routerLink]="'/profile'"
+      iconName="person"
+    />
+  </div>
+
+  <app-sidebar-button
+    [text]="'Log out'"
+    iconName="logout"
+    [onClick]="onLogout"
+  />
+</div>

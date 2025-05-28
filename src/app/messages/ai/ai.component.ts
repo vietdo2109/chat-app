@@ -1,45 +1,52 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IconsService } from '../../services/icons.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
-
 import { ChatService } from '../../services/chat.service';
 import { Subscription } from 'rxjs';
-import { Group, GroupChatSlot } from '../../types/group';
-import { CreateMessageDTO, Message } from '../../types/Message';
+import { Message } from '../../types/Message';
 import { ComposeChatSlot } from '../../types/data';
+import { AI, AIChatSlot, GenContentRequest } from '../../types/ai';
+import { AiService } from '../../services/ai.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateAiModalComponent } from '../create-ai-modal/create-ai-modal.component';
 
 @Component({
-  selector: 'app-group',
+  selector: 'app-ai',
   standalone: false,
-  templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss'],
+  templateUrl: './ai.component.html',
+  styleUrls: ['./ai.component.scss'],
 })
-export class GroupComponent implements OnInit {
+export class AiComponent implements OnInit {
   constructor(
+    private iconService: IconsService,
+    private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private aiService: AiService,
+    private dialog: MatDialog
   ) {}
   searchInput = '';
-  groupChatList: GroupChatSlot[] = [];
-  isGroups: boolean = true;
+  aiChatList: AIChatSlot[] = [];
+  isGroups: boolean = false;
   chatId = '';
   messages: Message[] = [];
   currentChatSlot: ComposeChatSlot = {};
   sub!: Subscription;
   newMessage: string = '';
-  private hasJoinedChat = false;
+
   @ViewChild('messagesContainter') private messagesContainer!: ElementRef;
 
   // loading messages variables
   isLoadingMessages: boolean = false;
   currentPage = 1;
   itemsPerPage = 15;
-
+  responseText: string = '';
+  genContentState: 'pending' | 'error' | 'success' | '' = '';
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      const newChatId = params['groupId'];
+      const newChatId = params['aiId'];
       this.handleRouteChange(newChatId);
     });
   }
@@ -48,24 +55,20 @@ export class GroupComponent implements OnInit {
     this.currentPage = 1;
     this.isLoadingMessages = false;
     // Leave previous chat if needed
-    if (this.hasJoinedChat && this.chatId !== newChatId) {
-      this.chatService.leaveChat(this.chatId);
-    }
-
     this.chatId = newChatId;
 
     // Load groups and messages
-    this.messageService.getGroupsMembers().subscribe({
-      next: (res: Group[]) => {
-        this.groupChatList = res;
+    this.aiService.getAIs().subscribe({
+      next: (res: AI[]) => {
+        this.aiChatList = res;
         console.log(res);
         this.currentChatSlot =
-          this.groupChatList.find((e) => e.id === this.chatId) || {};
+          this.aiChatList.find((e) => e.id === this.chatId) || {};
       },
     });
 
-    this.messageService
-      .getMessagesByGroupId(this.chatId, this.currentPage, this.itemsPerPage)
+    this.aiService
+      .getMessagesByAiId(this.chatId, this.currentPage, this.itemsPerPage)
       .subscribe({
         next: (res: Message[]) => {
           this.messages = res;
@@ -75,28 +78,6 @@ export class GroupComponent implements OnInit {
           }, 200); // Use a slight delay
         },
       });
-
-    // Start SignalR connection if not started
-    await this.chatService.startConnection();
-
-    // Join chat room
-    this.chatService.joinChat(this.chatId);
-    this.hasJoinedChat = true;
-
-    // Subscribe once to new messages
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-    this.sub = this.chatService.newMessages$.subscribe((msg) => {
-      if (
-        msg &&
-        msg.chatId === this.chatId &&
-        !this.messages.some((m) => m.id === msg.id)
-      ) {
-        this.messages.push(msg);
-        this.scrollToBottom();
-      }
-    });
   }
 
   adjustHeight(textarea: HTMLTextAreaElement) {
@@ -116,30 +97,6 @@ export class GroupComponent implements OnInit {
     }
   }
 
-  sendMessage() {
-    const trimmed = this.newMessage.trim();
-    if (!trimmed) return;
-
-    const payload: CreateMessageDTO = {
-      chatId: this.chatId,
-      text: trimmed,
-      type: 'group',
-    };
-
-    this.messageService.sendMessage(payload).subscribe({
-      next: (res) => {
-        console.log('✅ Message sent:', res);
-        this.chatService.sendMessageViaSocket(res); // Optional for SignalR
-
-        this.newMessage = '';
-        this.scrollToBottom(); // 👈 auto-scroll when new message arrives
-      },
-      error: (err) => {
-        console.error('❌ Failed to send message:', err);
-      },
-    });
-  }
-
   scrollToBottom() {
     if (this.messagesContainer) {
       setTimeout(() => {
@@ -147,6 +104,39 @@ export class GroupComponent implements OnInit {
           this.messagesContainer.nativeElement.scrollHeight;
       }, 0);
     }
+  }
+
+  sendMessage() {
+    const trimmed = this.newMessage.trim();
+    if (!trimmed) return;
+    this.genContentState = 'pending';
+
+    const payload: GenContentRequest = {
+      chatId: this.chatId,
+      text: trimmed,
+      type: 'ai',
+    };
+    this.messages.push({
+      chatId: this.chatId,
+      text: trimmed,
+      byAI: false,
+    }); // ⬅️ Immediately show user message
+    this.scrollToBottom();
+    this.newMessage = '';
+
+    this.aiService.generateContent(payload).subscribe({
+      next: (res) => {
+        this.messages.push(res);
+        this.scrollToBottom(); // 👈 auto-scroll after sending message
+      },
+      complete: () => {
+        this.genContentState = '';
+      },
+      error: (err) => {
+        console.error('❌ Failed to send message:', err);
+        this.genContentState = 'error';
+      },
+    });
   }
 
   toggleLoading() {
@@ -157,7 +147,11 @@ export class GroupComponent implements OnInit {
     if (this.isLoadingMessages) return;
     this.toggleLoading();
     this.messageService
-      .getMessagesByGroupId(this.chatId, this.currentPage, this.itemsPerPage)
+      .getMessagesByConversationId(
+        this.chatId,
+        this.currentPage,
+        this.itemsPerPage
+      )
       .subscribe({
         next: (res) => {
           this.messages = [...res, ...this.messages];
@@ -169,10 +163,12 @@ export class GroupComponent implements OnInit {
         },
       });
   }
+
   shouldShowSenderName(index: number): boolean {
     if (index === 0) return true;
     return this.messages[index].senderId !== this.messages[index - 1].senderId;
   }
+
   onScroll() {
     if (this.currentPage === 1) {
       this.currentPage = 2;
@@ -187,8 +183,18 @@ export class GroupComponent implements OnInit {
       this.sub.unsubscribe();
       this.sub = undefined!;
     }
-    if (this.hasJoinedChat) {
-      this.chatService.leaveChat(this.chatId);
-    }
+  }
+
+  openAddAIModal() {
+    let modalRef = this.dialog.open(CreateAiModalComponent);
+
+    modalRef.afterClosed().subscribe((result: AI | undefined) => {
+      if (result) {
+        this.aiChatList = [result, ...this.aiChatList];
+        // You can now use `result` to update your list, send to API, etc.
+      } else {
+        console.log('Dialog was closed without creating AI');
+      }
+    });
   }
 }

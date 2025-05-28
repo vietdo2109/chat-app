@@ -1,0 +1,90 @@
+<h2 mat-dialog-title>Create a new friend</h2>
+<mat-dialog-content>
+  <form #form="ngForm" (ngSubmit)="handleSubmit()">
+    <div class="container-img-name-gender-cbase">
+      <input
+        #fileInput
+        type="file"
+        accept="image/png, image/jpeg"
+        hidden
+        (change)="onFileSelected($event)"
+      />
+      <div class="container-image">
+        <div class="img">
+          <img
+            *ngIf="data.avatar"
+            [src]="data.avatar"
+            alt="avatar preview"
+            class="avatar-preview"
+          />
+        </div>
+        <button
+          type="button"
+          class="upload-avt-button"
+          (click)="onUploadClick()"
+        >
+          <mat-icon
+            fontIcon="upload"
+            aria-hidden="false"
+            aria-label="upload image icon"
+          ></mat-icon>
+        </button>
+      </div>
+      <div class="container-name-gender-cbase">
+        <div class="container-name-gender">
+          <div [className]="'container-input'">
+            <label for="name">Name *</label>
+            <input
+              [(ngModel)]="data.name"
+              #email="ngModel"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="AI's name"
+              [className]="'input-field'"
+            />
+            <!-- <app-error-text [error]="error.email" [text]="error.email" /> -->
+          </div>
+          <div [className]="'container-input'">
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender" [(ngModel)]="data.gender">
+              <option value="0">Female</option>
+              <option value="1">Male</option>
+            </select>
+            <!-- <app-error-text [error]="error.password" [text]="error.password" /> -->
+          </div>
+        </div>
+        <div [className]="'container-input'">
+          <label for="characterBase">Character base</label>
+          <input
+            [(ngModel)]="data.characterBase"
+            name="characterBase"
+            id="characterBase"
+            type="text"
+            placeholder="A movie, anime, comic,... character "
+            [className]="'input-field'"
+          />
+        </div>
+        <!-- <app-error-text [error]="error.password" [text]="error.password" /> -->
+      </div>
+    </div>
+    <div [className]="'container-input'">
+      <label for="systemPrompt">System prompt *</label>
+      <textarea
+        [(ngModel)]="data.systemPrompt"
+        name="systemPrompt"
+        id="systemPrompt"
+        type="text"
+        placeholder="Describe this AI"
+        [className]="'input-field'"
+      ></textarea>
+      <!-- <app-error-text [error]="error.password" [text]="error.password" /> -->
+    </div>
+
+    <!-- <app-button [status]="status" text="Login"></app-button> -->
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close] class="cancel-button">Cancel</button>
+  <button mat-button (click)="handleSubmit()" cdkFocusInitial>Create</button>
+</mat-dialog-actions>

@@ -1,45 +1,104 @@
 <div
-  *ngIf="!isGroup()"
-  [className]="'chatSlot'"
-  [routerLink]="'/messages/' + chatSlot()?.id"
+  *ngIf="type === 'conversation'"
+  [className]="isCurrent ? 'chatSlot--current' : 'chatSlot'"
+  [routerLink]="'/messages/conversations/' + chatSlot.id"
 >
-  <div [className]="'avatar'"></div>
+  <div [className]="'avatar-container'">
+    <div [className]="'avatar-container'">
+      <img
+        *ngIf="chatSlot.avatar !== undefined"
+        [src]="chatSlot.avatar"
+        alt="avatar"
+        class="avatar"
+      />
+      <img
+        *ngIf="chatSlot.avatar === undefined"
+        src="assets/images/default-user-avt.png"
+        alt="avatar"
+        class="avatar"
+      />
+    </div>
+  </div>
   <div [className]="'chatSlot__information'">
     <div [className]="'chatSlot__header'">
-      <h5>{{ chatSlot()?.other?.userName }}</h5>
+      <h5>{{ chatSlot.other?.userName }}</h5>
     </div>
     <p [className]="'latestMessage'">
       {{
-        chatSlot()?.latestMessage?.senderId === chatSlot()?.self?.id
-          ? "You: " + chatSlot()?.latestMessage?.text
-          : chatSlot()?.latestMessage?.text
+        chatSlot.latestMessage?.senderId === chatSlot.self?.id
+          ? "You: " + chatSlot.latestMessage?.text
+          : chatSlot.latestMessage?.text
       }}
       •
-      {{ chatSlot()?.latestActionDate | timeAgo }}
+      {{ chatSlot.latestActionDate | timeAgo }}
     </p>
   </div>
 </div>
 
 <div
-  *ngIf="isGroup()"
-  [className]="'chatSlot'"
-  [routerLink]="'/messages/groups/' + chatSlot()?.id"
+  *ngIf="type === 'group'"
+  [className]="isCurrent ? 'chatSlot--current' : 'chatSlot'"
+  [routerLink]="'/messages/groups/' + chatSlot.id"
 >
-  <div [className]="'avatar'"></div>
+  <div [className]="'avatar-container'">
+    <img
+      [src]="
+        chatSlot.avatar !== undefined
+          ? chatSlot.avatar
+          : 'assets/images/default-user-avt.png'
+      "
+      alt="avatar"
+      class="avatar"
+    />
+  </div>
   <div [className]="'chatSlot__information'">
     <div [className]="'chatSlot__header'">
-      <h5>{{ chatSlot()?.name }}</h5>
+      <h5>{{ chatSlot.name }}</h5>
     </div>
     <p [className]="'latestMessage'">
       {{
-        chatSlot()?.latestMessage?.senderId === chatSlot()?.self?.id
-          ? "You: " + chatSlot()?.latestMessage?.text
-          : chatSlot()?.latestMessage?.senderName +
+        chatSlot.latestMessage?.senderId === chatSlot.self?.id
+          ? "You: " + chatSlot.latestMessage?.text
+          : chatSlot.latestMessage?.senderName +
             ": " +
-            chatSlot()?.latestMessage?.text
+            chatSlot.latestMessage?.text
       }}
       •
-      {{ chatSlot()?.latestActionDate | timeAgo }}
+      {{ chatSlot.latestActionDate | timeAgo }}
+    </p>
+  </div>
+</div>
+
+<div
+  *ngIf="type === 'ai'"
+  [className]="isCurrent ? 'chatSlot--current' : 'chatSlot'"
+  [routerLink]="'/messages/ais/' + chatSlot.id"
+>
+  <div [className]="'avatar-container'">
+    <img
+      [src]="
+        chatSlot.avatar !== '' || undefined || null
+          ? chatSlot.avatar
+          : 'assets/images/default-user-avt.png'
+      "
+      alt="avatar"
+      class="avatar"
+    />
+  </div>
+  <div [className]="'chatSlot__information'">
+    <div [className]="'chatSlot__header'">
+      <h5>{{ chatSlot.name }}</h5>
+    </div>
+    <p [className]="'latestMessage'">
+      {{
+        chatSlot.latestMessage?.senderId === chatSlot.self?.id
+          ? "You: " + chatSlot.latestMessage?.text
+          : chatSlot.latestMessage?.senderName +
+            ": " +
+            chatSlot.latestMessage?.text
+      }}
+      •
+      {{ chatSlot.latestActionDate | timeAgo }}
     </p>
   </div>
 </div>

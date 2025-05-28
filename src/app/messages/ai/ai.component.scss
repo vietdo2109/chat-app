@@ -10,7 +10,7 @@ p {
   font-size: 12px;
 }
 h5 {
-  margin: 0;
+  display: none;
 }
 .container {
   flex: 1;
@@ -54,7 +54,7 @@ h5 {
     flex-direction: column;
   }
   &__chatlist {
-    min-width: 30%;
+    min-width: 300px;
     display: flex; // width > 660px
     flex-direction: column;
     padding: 10px;
@@ -119,33 +119,24 @@ app-chatslot {
   align-items: center;
 }
 
-// .chatSlot:hover {
-//   background: #eeeffa;
-// }
+.create-ai-button-container {
+  width: 100%;
+  margin-bottom: 8px;
+}
 
-// .avatar {
-//   border-radius: 16%;
-//   width: 60px;
-//   height: 60px;
-//   background-color: #464646;
-// }
-
-// .chatSlot__information {
-//   display: flex;
-//   height: 100%;
-//   flex: 1;
-//   flex-direction: column;
-//   justify-content: center;
-//   gap: 4px;
-// }
-// .chatSlot__header {
-//   width: 100%;
-//   display: flex;
-//   justify-content: space-between;
-// }
-// .latestMessage {
-//   color: #90969d;
-// }
+.create-ai-button {
+  font-family: "Poppins", sans-serif;
+  color: $purple;
+  width: 100%;
+  border-radius: 10px;
+  border: 3px solid #7678ed;
+  background-color: white;
+  font-size: 30px;
+  cursor: pointer;
+  &:hover {
+    background-color: $purple-light;
+  }
+}
 
 .icons_container {
   display: flex;
@@ -161,7 +152,7 @@ app-chatslot {
   &__header {
     display: flex;
     align-items: center;
-    padding: 16px 20px;
+    padding: 16px 20px 8px 20px;
     box-sizing: border-box;
     max-height: 100px;
     justify-content: space-between;
@@ -205,7 +196,7 @@ app-chatslot {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 10px;
 }
 .message {
   width: 100%;
@@ -284,4 +275,8 @@ app-message-textarea {
   background-color: #eeeffa;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+
+app-create-ai-modal {
+  height: 100vh;
 }

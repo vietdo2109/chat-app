@@ -15,18 +15,30 @@
           [(ngModel)]="searchInput"
         />
       </div>
+      <div [className]="'create-ai-button-container'" *ngIf="isAIs">
+        <button [className]="'create-ai-button'" (click)="openAddAIModal()">
+          +
+        </button>
+      </div>
       <div *ngIf="isGroups">
         <app-chatslot
           *ngFor="let chatSlot of groupChatList"
           [chatSlot]="chatSlot"
-          [isGroup]="isGroups"
+          [type]="'group'"
         />
       </div>
-      <div *ngIf="!isGroups">
+      <div *ngIf="isConversations">
         <app-chatslot
           *ngFor="let chatSlot of conversationChatList"
           [chatSlot]="chatSlot"
-          [isGroup]="isGroups"
+          [type]="'conversation'"
+        />
+      </div>
+      <div *ngIf="isAIs">
+        <app-chatslot
+          *ngFor="let chatSlot of aiChatList"
+          [chatSlot]="chatSlot"
+          [type]="'ai'"
         />
       </div>
     </div>

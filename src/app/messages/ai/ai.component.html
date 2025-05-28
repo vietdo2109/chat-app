@@ -15,11 +15,16 @@
           [(ngModel)]="searchInput"
         />
       </div>
+      <div [className]="'create-ai-button-container'">
+        <button [className]="'create-ai-button'" (click)="openAddAIModal()">
+          +
+        </button>
+      </div>
       <div>
         <app-chatslot
-          *ngFor="let chatSlot of groupChatList"
+          *ngFor="let chatSlot of aiChatList"
           [chatSlot]="chatSlot"
-          [type]="'group'"
+          [type]="'ai'"
           [currentChatSlot]="chatId"
         />
       </div>
@@ -37,12 +42,10 @@
             <p [className]="'conversation__name'">
               {{ currentChatSlot.name }}
             </p>
-            <p [className]="'conversation__status'">Online</p>
           </div>
         </div>
         <div [className]="'icons_container'">
           <div><mat-icon svgIcon="search" aria-hidden="false"></mat-icon></div>
-          <div><mat-icon svgIcon="phone" aria-hidden="false"></mat-icon></div>
           <div><mat-icon svgIcon="more" aria-hidden="false"></mat-icon></div>
         </div>
       </div>
@@ -65,10 +68,12 @@
           >
             <app-message
               [message]="message"
-              [isSelfMessage]="message.senderId === currentChatSlot.self?.id"
+              [isSelfMessage]="!message.byAI"
               [showSenderName]="shouldShowSenderName(i)"
             />
           </div>
+          <p>{{ responseText }}</p>
+          <app-message-pending *ngIf="genContentState == 'pending'" />
         </div>
       </div>
       <!-- display messages -->
@@ -101,9 +106,5 @@
       </div>
       <!-- input bar -->
     </div>
-  </div>
-  <div [className]="'container__info'">
-    <div [className]="'container__groupInfo'"></div>
-    <div [className]="'container__member'"></div>
   </div>
 </div>

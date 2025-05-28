@@ -4,11 +4,9 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { MyServiceService } from '../services/my-service.service';
+import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
-import { SidebarButtonComponent } from './sidebar-button/sidebar-button.component';
 import { RouterLink } from '@angular/router';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
 import { AuthService } from '../services/auth.service';
@@ -21,6 +19,14 @@ import { MessageComponent } from './message/message.component';
 import { ChatService } from '../services/chat.service';
 import { ConversationComponent } from './conversation/conversation.component';
 import { GroupComponent } from './group/group.component';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { AiComponent } from './ai/ai.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MessagePendingComponent } from './message-pending/message-pending.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CreateAiModalComponent } from './create-ai-modal/create-ai-modal.component';
+import { MatLabel } from '@angular/material/form-field';
 
 @NgModule({
   imports: [
@@ -30,8 +36,22 @@ import { GroupComponent } from './group/group.component';
     TimeAgoPipe,
     HttpClientModule,
     MatIconModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    SidebarComponent,
     MatBadgeModule,
+    MatLabel,
+    InfiniteScrollDirective,
+    InfiniteScrollModule,
     RouterModule.forChild([
+      {
+        path: 'ais/:aiId',
+        component: AiComponent, // a regular component declared in this module
+      },
+      {
+        path: 'ais',
+        component: HomeComponent, // a regular component declared in this module
+      },
       {
         path: 'groups/:groupId',
         component: GroupComponent, // a regular component declared in this module
@@ -41,13 +61,15 @@ import { GroupComponent } from './group/group.component';
         component: HomeComponent, // a regular component declared in this module
       },
       {
-        path: ':conversationId',
+        path: 'conversations/:conversationId',
         component: ConversationComponent, // a regular component declared in this module
       },
       {
-        path: '',
+        path: 'conversations',
         component: HomeComponent,
       },
+      { path: '', redirectTo: 'conversations', pathMatch: 'full' },
+
       {
         path: '**',
         pathMatch: 'full',
@@ -57,28 +79,35 @@ import { GroupComponent } from './group/group.component';
   ],
   declarations: [
     HomeComponent,
-    SidebarComponent,
-    SidebarButtonComponent,
     MessageButtonComponent,
     MessageTextareaComponent,
     ChatslotComponent,
     MessageComponent,
     ConversationComponent,
     GroupComponent,
+    AiComponent,
+    MessagePendingComponent,
+    CreateAiModalComponent,
   ],
 
   // schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
     HomeComponent,
-    SidebarComponent,
-    SidebarButtonComponent,
     MessageButtonComponent,
     MessageTextareaComponent,
     ChatslotComponent,
     MessageComponent,
     ConversationComponent,
     GroupComponent,
+    AiComponent,
+    MessagePendingComponent,
+    CreateAiModalComponent,
   ],
-  providers: [MessageService, ChatService],
+  providers: [
+    MessageService,
+    ChatService,
+    InfiniteScrollDirective,
+    AuthService,
+  ],
 })
 export class MessagesModule {}
