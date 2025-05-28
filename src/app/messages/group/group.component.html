@@ -96,7 +96,7 @@
         </div>
 
         <div class="textarea-side-div">
-          <app-message-button svgIcon="send" [onClick]="sendMessage" />
+          <app-message-button svgIcon="send" (clicked)="sendMessage()" />
         </div>
       </div>
       <!-- input bar -->

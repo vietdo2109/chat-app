@@ -1,4 +1,11 @@
-import { Component, Input, input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  input,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-message-button',
@@ -8,8 +15,10 @@ import { Component, Input, input, OnInit } from '@angular/core';
 })
 export class MessageButtonComponent implements OnInit {
   svgIcon = input('');
-  @Input() onClick!: () => void;
+  @Output() clicked = new EventEmitter<void>();
   constructor() {}
-
+  handleClick() {
+    this.clicked.emit();
+  }
   ngOnInit() {}
 }
